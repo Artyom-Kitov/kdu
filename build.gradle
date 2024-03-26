@@ -19,9 +19,21 @@ test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 application {
-    mainClassName = 'MainKt'
+    mainClassName = 'me.akitov.kdu.MainKt'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    from {
+        configurations.compileClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
