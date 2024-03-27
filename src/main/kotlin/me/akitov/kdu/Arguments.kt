@@ -3,18 +3,17 @@ package me.akitov.kdu
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.NumberFormatException
-import kotlin.jvm.Throws
 
 data class Arguments(
-    val depth: UInt,
+    val depth: Int,
     val symlinksShown: Boolean,
-    val limit: UInt,
+    val limit: Int,
     val fileName: Path,
     ) {
     class Builder {
-        private var depth = 8u
+        private var depth = 8
         private var symlinksShown = false
-        private var limit = 1024u
+        private var limit = 1024
         private var fileName = Path.of(".")
 
         companion object {
@@ -24,7 +23,7 @@ data class Arguments(
                 while (i < args.count()) {
                     when (args[i]) {
                         "--depth" -> try {
-                            builder.depth(args[i + 1].toUInt())
+                            builder.depth(args[i + 1].toUInt().toInt())
                             i++
                         } catch (e: IndexOutOfBoundsException) {
                             throw KduException("wrong depth parameter: a positive integer value expected")
@@ -33,7 +32,7 @@ data class Arguments(
                         }
 
                         "--limit" -> try {
-                            builder.limit(args[i + 1].toUInt())
+                            builder.limit(args[i + 1].toUInt().toInt())
                             i++
                         } catch (e: IndexOutOfBoundsException) {
                             throw KduException("wrong limit parameter: a positive integer value expected")
@@ -61,7 +60,7 @@ data class Arguments(
             }
         }
 
-        fun depth(value: UInt): Builder {
+        fun depth(value: Int): Builder {
             depth = value
             return this
         }
@@ -71,7 +70,7 @@ data class Arguments(
             return this
         }
 
-        fun limit(value: UInt): Builder {
+        fun limit(value: Int): Builder {
             limit = value
             return this
         }

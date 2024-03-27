@@ -1,5 +1,8 @@
 package me.akitov.kdu
 
+import me.akitov.kdu.model.KduBuilder
+import me.akitov.kdu.model.KduPrinter
+
 fun main(args: Array<String>) {
     val arguments = try {
         Arguments.Builder.buildFromStrings(*args)
@@ -12,6 +15,10 @@ fun main(args: Array<String>) {
         e.printStackTrace()
         return
     }
+
+    val file = KduBuilder.build(arguments.fileName, arguments.symlinksShown)
+    val printer = KduPrinter(System.out, arguments.depth, arguments.limit)
+    printer.print(file)
 }
 
 fun usage() = """
